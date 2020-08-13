@@ -9,3 +9,8 @@
 .mat-card {
   cursor: pointer;
 }
+
+.mat-spinner {
+  margin: auto;
+  margin-top: 20%;
+}

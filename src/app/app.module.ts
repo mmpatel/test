@@ -10,17 +10,20 @@ import { GraphQLModule } from "./graphql.module";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatCardModule } from "@angular/material/card";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RelativeTimePipe } from "./core/helpers/pipes/relative-time/relative-time.pipe";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-
+import { DateAgoPipe } from './core/helpers/pipes/date-ago.pipe';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 @NgModule({
   declarations: [
     AppComponent,
     LaunchListComponent,
     LaunchDetailsComponent,
-    RelativeTimePipe
+    RelativeTimePipe,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -29,6 +32,8 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
+    MatProgressSpinnerModule,
+    SlickCarouselModule,
     StoreModule.forRoot(launchReducers),
     EffectsModule.forRoot(launchEffects),
     StoreDevtoolsModule.instrument()

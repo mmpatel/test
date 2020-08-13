@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { map, switchMap } from "rxjs/operators";
-import { LaunchDetailsGQL } from "../services/spacexGraphql.service";
+import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { LaunchFacadeService } from '../services/launch-facade.service';
 
 @Component({
   selector: "app-launch-details",
@@ -9,15 +8,38 @@ import { LaunchDetailsGQL } from "../services/spacexGraphql.service";
   styleUrls: ["./launch-details.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LaunchDetailsComponent {
+export class LaunchDetailsComponent implements OnInit {
+  id: any;
+  launchDetails$;
+  loading: boolean = true;
+  
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly launchDetailsService: LaunchDetailsGQL
+    private readonly launchFacade: LaunchFacadeService,
+    private router: Router
   ) {}
 
-  launchDetails$ = this.route.paramMap.pipe(
-    map(params => params.get("id") as string),
-    switchMap(id => this.launchDetailsService.fetch({ id })),
-    map(res => res.data.launch)
-  );
+
+  slideConfig = {
+    "slidesToShow": 3,
+    "slidesToScroll": 1,
+    "nextArrow": "<i class='fa fa-angle-left' aria-hidden='true' style='position:absolute;left: -23px;top: 35px;font-size: 30px;'></i>",
+    "prevArrow": "<i class='fa fa-angle-right' aria-hidden='true' style='position:absolute;right: -23px;top: 35px;font-size: 30px;'></i>",
+    "dots": false,
+    "infinite": false
+  };
+
+  ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      this.id = params['params'].id;
+      this.launchDetails$ = this.launchFacade.pastLaunchDetailsStoreCache({id:this.id});
+    });
+    this.launchFacade.launchDetailLoading$.subscribe((res) => {
+      this.loading = res;
+    })
+  }
+
+  redirect() {
+    this.router.navigate([''])
+  }
 }

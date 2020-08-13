@@ -5,3 +5,26 @@
   grid-template-columns: repeat(auto-fill, 300px);
   justify-content: center;
 }
+
+.slick-slider {
+  width: 90%;
+  margin: auto;
+  background: #fff;
+}
+
+.slide img {
+  height: 94px;
+}
+
+.mat-spinner {
+  margin: auto;
+  margin-top: 20%;
+}
+
+h3 a {
+  cursor: pointer;
+}
+
+h3 a i {
+  font-size: 35px;
+}

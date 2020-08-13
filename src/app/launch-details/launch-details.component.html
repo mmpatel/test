@@ -1,29 +1,44 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
 <ng-container *ngIf="launchDetails$ | async as launchDetails">
-  <section style="padding-top: 20px;">
-    <mat-card style="width: 400px; margin: auto;">
-      <mat-card-header>
-        <mat-card-title>{{ launchDetails.mission_name }}</mat-card-title>
-      </mat-card-header>
-      <img
-        height="256"
-        width="256"
-        mat-card-image
-        [src]="launchDetails.links.mission_patch"
-        alt="Mission patch of {{ launchDetails.mission_name }}"
-      />
-      <mat-card-content>
-        <p>{{ launchDetails.details }}</p>
-      </mat-card-content>
-    </mat-card>
-  </section>
-  <section class="photo-grid">
-    <img
-      *ngFor="let pic of launchDetails.links.flickr_images"
-      [src]="pic"
-      alt="Picture of {{ launchDetails.mission_name }}"
-      height="300"
-      width="300"
-      loading="lazy"
-    />
+  <section class="container mt-4" *ngIf="launchDetails.links?.flickr_images[0] !== null">
+    <div class="row">
+      <div class="col-md-4">
+        <h3>
+          <a (click)="redirect()"><i class="fa fa-angle-left" aria-hidden="true"></i> {{launchDetails?.mission_name}}</a>
+        </h3>
+        <!--Card-->
+        <div class="card testimonial-card mt-2 mb-3">
+          <div class="avatar mx-auto white mt-4">
+            <img height="256" width="256"
+            [src]="launchDetails.links?.mission_patch !== null ? launchDetails.links?.mission_patch: 'assets/blank_image.png'"
+              class="rounded-circle img-responsive" alt="Mission patch of {{ launchDetails.mission_name }}">
+          </div>
+
+          <!-- Content -->
+          <div class="card-body">
+            <hr>
+            <p>{{ launchDetails.details }}</p>
+          </div>
+
+        </div>
+        <!--Card-->
+      </div>
+      <div class="col-md-6 offset-md-1">
+        <section class="mt-5">
+          <div class="text-center">
+            <img [src]="launchDetails.links?.flickr_images[0]" alt="Picture of {{ launchDetails.mission_name }}"
+            height="300" width="300" loading="lazy" />
+          </div>
+          <div style="margin-top: 20px;" *ngIf="launchDetails.links?.flickr_images.length> 0">
+            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+              <div ngxSlickItem style="margin-right: 5px;" *ngFor="let slide of launchDetails.links.flickr_images"
+                class="slide">
+                <img [src]="slide" alt="" width="100%">
+              </div>
+            </ngx-slick-carousel>
+          </div>
+        </section>
+      </div>
+    </div>
   </section>
 </ng-container>
