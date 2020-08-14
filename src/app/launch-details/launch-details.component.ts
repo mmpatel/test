@@ -9,9 +9,10 @@ import { LaunchFacadeService } from '../services/launch-facade.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LaunchDetailsComponent implements OnInit {
-  id: any;
-  launchDetails$;
-  loading: boolean = true;
+  private id: any;
+  public launchDetails$;
+  public loading: boolean = true;
+  public isLoading: boolean = true
   
   constructor(
     private readonly route: ActivatedRoute,
@@ -19,15 +20,14 @@ export class LaunchDetailsComponent implements OnInit {
     private router: Router
   ) {}
 
-
-  slideConfig = {
-    "slidesToShow": 3,
-    "slidesToScroll": 1,
-    "nextArrow": "<i class='fa fa-angle-left' aria-hidden='true' style='position:absolute;left: -23px;top: 35px;font-size: 30px;'></i>",
-    "prevArrow": "<i class='fa fa-angle-right' aria-hidden='true' style='position:absolute;right: -23px;top: 35px;font-size: 30px;'></i>",
-    "dots": false,
-    "infinite": false
-  };
+    slideConfig = {
+      "slidesToShow": 3,
+      "slidesToScroll": 1,
+      "nextArrow": "<i class='fa fa-angle-left left-arrow' aria-hidden='true'></i>",
+      "prevArrow": "<i class='fa fa-angle-right right-arrow' aria-hidden='true'></i>",
+      "dots": false,
+      "infinite": false
+    };
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -37,6 +37,10 @@ export class LaunchDetailsComponent implements OnInit {
     this.launchFacade.launchDetailLoading$.subscribe((res) => {
       this.loading = res;
     })
+  }
+
+  onLoad() {
+    this.isLoading = false;
   }
 
   redirect() {

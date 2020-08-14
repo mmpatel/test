@@ -29,11 +29,12 @@
             <img [src]="launchDetails.links?.flickr_images[0]" alt="Picture of {{ launchDetails.mission_name }}"
             height="300" width="300" loading="lazy" />
           </div>
-          <div style="margin-top: 20px;" *ngIf="launchDetails.links?.flickr_images.length> 0">
+          <div class="mt-5" *ngIf="launchDetails.links?.flickr_images.length> 0">
             <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
-              <div ngxSlickItem style="margin-right: 5px;" *ngFor="let slide of launchDetails.links.flickr_images"
+              <div ngxSlickItem *ngFor="let slide of launchDetails.links.flickr_images"
                 class="slide">
-                <img [src]="slide" alt="" width="100%">
+                <img *ngIf="isLoading" src="/assets/spinner.gif" />
+                <img [src]="slide" [hidden]="isLoading" (load)="onLoad()" width="100%">
               </div>
             </ngx-slick-carousel>
           </div>

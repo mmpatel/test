@@ -10,7 +10,8 @@ import * as launchListQuery from "../store/selectors";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LaunchListComponent implements OnInit {
-  loading: boolean = true;
+  public loading: boolean = true;
+  public isLoading: boolean = true
 
   constructor(private readonly launchFacade: LaunchFacadeService) {}
   pastLaunches$ = this.launchFacade.pastLaunchListStoreCache();
@@ -19,5 +20,9 @@ export class LaunchListComponent implements OnInit {
     this.launchFacade.launchListLoading$.subscribe((res) => {
       this.loading = res;
     })
+  }
+
+  onLoad() {
+    this.isLoading = false;
   }
 }

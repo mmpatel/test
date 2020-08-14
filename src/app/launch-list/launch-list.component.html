@@ -10,8 +10,8 @@
           <mat-card-subtitle>{{ launch.rocket.rocket_name }} - launched
             {{ launch.launch_date_utc | dateAgo }}</mat-card-subtitle>
         </mat-card-header>
-        <img height="300" width="300" mat-card-image loading="lazy" [src]="launch.links.flickr_images[0]"
-          alt="Photo of {{ launch.mission_name }}" />
+        <img *ngIf="isLoading" src="/assets/spinner.gif" />
+        <img height="300" width="300" mat-card-image [hidden]="isLoading" (load)="onLoad()" [src]="launch.links.flickr_images[0]" />
       </mat-card>
     </section>
   </main>

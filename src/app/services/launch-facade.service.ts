@@ -45,7 +45,7 @@ export class LaunchFacadeService {
 
   pastLaunchDetailFacade(id) {
     return this.launchesDetailService
-      .fetch({id: id})
+      .fetch({id})
       .pipe(map(res => res.data.launch));
   }
 }

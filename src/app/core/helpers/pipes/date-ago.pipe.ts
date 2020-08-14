@@ -1,34 +1,41 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'dateAgo',
-    pure: true
+  name: 'dateAgo',
+  pure: true
 })
 export class DateAgoPipe implements PipeTransform {
 
-    transform(value: any, args?: any): any {
-        if (value) {
-            const seconds = Math.floor((+new Date() - +new Date(value)) / 1000);
-            if (seconds < 29) // less than 30 seconds ago will show as 'Just now'
-                return 'Just now';
-            const intervals = {
-                'day': 86400,
-                'hour': 3600,
-                'minute': 60,
-                'second': 1
-            };
-            let counter;
-            for (const i in intervals) {
-                counter = Math.floor(seconds / intervals[i]);
-                if (counter > 0)
-                    if (counter === 1) {
-                        return counter + ' ' + i + ' ago'; // singular (1 day ago)
-                    } else {
-                        return counter + ' ' + i + 's ago'; // plural (2 days ago)
-                    }
-            }
+  transform(value: any, args?: any): any {
+    if (value) {
+      let transformedDateString = 'Just now';
+      const nowDate: any = new Date();
+      const transformDate = Date.parse(value);
+      const seconds = Math.floor((nowDate - transformDate) / 1000);
+
+      if (seconds < 29) {
+        return transformedDateString;
+      }
+      const intervals = {
+        'day': 86400,
+        'hour': 3600,
+        'minute': 60,
+        'second': 1
+      };
+      
+      for (const i in intervals) {
+        const counter = Math.floor(seconds / intervals[i]);
+
+        if (counter > 0) {
+          if (counter === 1) {
+            transformedDateString = `${counter} ${i} ago`; // singular (1 day ago)
+          } else {
+            transformedDateString = `${counter} ${i}s ago`; // plural (2 days ago)
+          }
         }
-        return value;
+        return transformedDateString;
+      }
     }
+  }
 
 }
